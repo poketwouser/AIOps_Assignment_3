@@ -1,0 +1,53 @@
+# ray: 1 head + 2 workers (4 cpu, 3 GB each, same as spark)
+# ray is started manually:
+#   head:    ray start --head --port=6379 --dashboard-host=0.0.0.0 --num-cpus=0
+#   workers: ray start --address=ray-head:6379 --num-cpus=4
+name: a3-ray
+services:
+  ray-head:
+    image: a3-cluster:3.3.4
+    container_name: ray_head
+    hostname: ray-head
+    command: ["sleep", "infinity"]
+    init: true
+    ports:
+      - "8265:8265"   # Ray Dashboard
+    volumes:
+      - ./:/opt/a3
+    environment:
+      - PYTHONPATH=/opt/a3
+    shm_size: 1gb
+    cpus: 2
+    mem_limit: 2g
+
+  ray-worker-a:
+    image: a3-cluster:3.3.4
+    container_name: ray_worker_a
+    hostname: ray-worker-a
+    command: ["sleep", "infinity"]
+    init: true
+    depends_on:
+      - ray-head
+    volumes:
+      - ./:/opt/a3
+    environment:
+      - PYTHONPATH=/opt/a3
+    shm_size: 1gb
+    cpus: 4
+    mem_limit: 3g
+
+  ray-worker-b:
+    image: a3-cluster:3.3.4
+    container_name: ray_worker_b
+    hostname: ray-worker-b
+    command: ["sleep", "infinity"]
+    init: true
+    depends_on:
+      - ray-head
+    volumes:
+      - ./:/opt/a3
+    environment:
+      - PYTHONPATH=/opt/a3
+    shm_size: 1gb
+    cpus: 4
+    mem_limit: 3g

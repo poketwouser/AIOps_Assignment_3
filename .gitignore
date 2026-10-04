@@ -1,0 +1,37 @@
+# Large files: downloaded input data and generated parquet output
+data/
+output/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# OS / editor
+.DS_Store
+.ipynb_checkpoints/
+
+# Course handout (not part of the submission)
+Assignment 3.pdf
+
+# Personal notes
+RUNBOOK.md
+
+# Report build files (charts and LaTeX source are already in Report.pdf)
+charts/
+report/
+results/results_table.csv
+results/logs/make_report_assets.log
+results/logs/udf_microbench.log
+results/*/*_dryrun.*
+results/*/*_warmup.*
+results/logs/shutdown.log
+
+# Local helper scripts
+*.sh
+!docker/start-spark.sh
+
+# Local analysis scripts and raw results
+make_report_assets.py
+udf_microbench.py
+results/
